@@ -11,25 +11,28 @@ class MenuController extends Controller
     public function addMenu (Request $request){
         $validator = Validator::make($request->all(),[
             'name' => ['bail','alpha','unique:menus,name'],
-            'price' => ['bail','numeric']
+            'price' => ['bail','numeric'],
+            'ingredients' => ['bail','array']
         ]);
 
         if($validator->fails()){
             return response($validator->getMessageBag()->first(),400);
         }
-
+        $ingredients = $request->ingredients ?? [];
         $menu = new Menu($request->all());
+        $menu->ingredient()->attach($ingredients);
         $menu->save();
         return response($menu,201);
     }
 
     public function updateMenu(Request $request,$name){
-        $validator = Validator::make($request->all(),[
-            'name' => ['bail','alpha'],
-            'price' => ['bail','numeric']
-        ]);
-
         $menu = Menu::where('name',$name)->first();
+        
+        $validator = Validator::make($request->all(),[
+            'name' => ['bail','alpha','unique:menus,name,'.$menu->id],
+            'price' => ['bail','numeric'],
+            'ingredients' => ['bail','array']
+        ]);
 
         if(!$menu)
             return response('there is no such menu',400);
@@ -38,7 +41,9 @@ class MenuController extends Controller
             return response($validator->getMessageBag()->first(),400);
         }
 
+        $ingredients = $request->ingredients ?? [];
         $menu->update($request->all());
+        $menu->ingredient()->sync($ingredients);
         return response('updated with success',200);
     }
 

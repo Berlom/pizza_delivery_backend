@@ -36,15 +36,17 @@ class IngredientController extends Controller
     }
 
     public function editIngredient(Request $request,$name){
+        $ingredient = Ingredient::where('name',$name)->first();
+        
         $validator = Validator::make($request->all(),[
             'price' => ['bail','numeric'],
+            'name' => ['bail','unique:ingredients,name'.$ingredient->id],
             'menu_id' => ['bail','array']
         ]);
 
         if($validator->fails())
             return response($validator->getMessageBag()->first(),400);
 
-        $ingredient = Ingredient::where('name',$name)->first();
         if(!$ingredient) {
             return response('Ingredient not found',400);
         }
