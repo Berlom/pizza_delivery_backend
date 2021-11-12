@@ -17,11 +17,10 @@ class CreatePaniersTable extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('menu_id')->unsigned();
-            $table->bigInteger('ingredient_id')->unsigned();
+            $table->string('ingredients');
             $table->integer('quantity')->default(1);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

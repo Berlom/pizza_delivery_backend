@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PanierController;
@@ -48,4 +49,11 @@ Route::prefix('ingredient')->middleware(['auth:sanctum'])->group(function(){
 
 Route::prefix('cart')->middleware(['auth:sanctum'])->group(function(){
     Route::post('/add',[PanierController::class,'addToCart']);
+    Route::put('/update/{id}',[PanierController::class,'updateCart']);
+    Route::delete('delete/{id}',[PanierController::class,'deleteFromCart']);
+});
+
+Route::prefix('coupon')->middleware(['auth:sanctum','isAdmin'])->group(function(){
+    Route::post('/add',[CouponController::class,'addCoupon']);
+    Route::delete('/delete/{name}',[CouponController::class,'deleteCoupon']);
 });
