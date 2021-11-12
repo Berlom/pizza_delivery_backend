@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PanierController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,4 +44,8 @@ Route::prefix('ingredient')->middleware(['auth:sanctum'])->group(function(){
         Route::put('/update/{name}',[IngredientController::class,'editIngredient']);
         Route::delete('/delete/{name}',[IngredientController::class,'deleteIngredient']);
     });
+});
+
+Route::prefix('cart')->middleware(['auth:sanctum'])->group(function(){
+    Route::post('/add',[PanierController::class,'addToCart']);
 });
