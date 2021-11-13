@@ -14,4 +14,8 @@ class Panier extends Model
         'ingredients',
         'quantity'
     ];
+
+    public function users(){
+        return $this->belongsTo(User::class);
+    }
 }
