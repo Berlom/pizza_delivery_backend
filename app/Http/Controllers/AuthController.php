@@ -101,6 +101,7 @@ class AuthController extends Controller
             'rounds' =>12
         ]);
 
+        $user->reset_token = null;
         $user->save();
         return response('password changed with success',200);
    }
