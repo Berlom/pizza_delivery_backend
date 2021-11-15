@@ -11,8 +11,7 @@ class Menu extends Model
 
     protected $fillable = [
         'name',
-        'price',
-        'ingredients'
+        'price'
     ];
 
     public function ingredient(){
