@@ -10,6 +10,10 @@ class Commande extends Model
     use HasFactory;
 
     protected $fillable=[
-        'coupon'
+        'address_id'
     ];
+
+    public function Addresses(){
+        return $this->belongsTo(Address::class);
+    }
 }

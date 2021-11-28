@@ -73,7 +73,8 @@ class DatabaseSeeder extends Seeder
             'user_id'=>1,
             'menu_id'=>2,
             'ingredients' => '1@3',
-            'quantity' => 5
+            'quantity' => 5,
+            'unit_price' => 4.5
         ]);
     }
 }

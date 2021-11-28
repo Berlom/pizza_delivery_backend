@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Commande;
 use App\Models\Coupon;
 use App\Models\Ingredient;
@@ -14,13 +15,11 @@ class CommandeController extends Controller
         $user = $request->user();
         $total = 0;
         foreach($user->paniers as $panier){
-            $price_menu = Menu::where('id',$panier->menu_id)->first()->price;
-            $ing_array = explode('@',$panier->ingredients);
-            foreach($ing_array as $ing){
-                $price_menu += Ingredient::where('id',$ing)->first()->price; 
-            }
-            $total += $price_menu * $panier->quantity;
+            $total += $panier->unit_price * $panier->quantity;
         }
+        $adr = Address::where('id',$request->address_id)->first();
+        if(!$adr)
+            return response('invalid address',404);
         $cmd = new Commande($request->all());
         $cmd->user_id = $user->id;
         if($coup){

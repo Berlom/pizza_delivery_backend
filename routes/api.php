@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\CouponController;
@@ -61,5 +62,9 @@ Route::middleware(['cors'])->group(function(){
     
     Route::prefix('commande')->middleware(['auth:sanctum'])->group(function(){
         Route::post('/make/{coup?}',[CommandeController::class,'makeCommande']);
+    });
+
+    Route::prefix('address')->middleware(['auth:sanctum','isAdmin'])->group(function(){
+        Route::post('/add',[AddressController::class,'addAddress']);
     });
 });
