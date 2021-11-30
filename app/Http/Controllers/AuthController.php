@@ -21,7 +21,8 @@ class AuthController extends Controller
         $validated = Validator::make($request->all(),[
             'email' => ['bail','email','required','unique:users,email'],
             'password'=> ['bail','required','between:8,30'],
-            'name'=>['bail','required','alpha']
+            'name'=>['bail','required','alpha'],
+            'phone_number'=>['bail','required','numeric','size:8']
         ]);
         if($validated->fails())
             return response($validated->getMessageBag()->first(),400);

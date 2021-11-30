@@ -26,12 +26,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function(){
-            DB::table('coupons')->delete();
-            DB::table('coupons')->insert([
-                'name'=>'salih',
-                'discount'=>0.4
-            ]);
-        })->mondays();
+            $discount = rand(1,5)/10;
+            DB::update('update paniers set discount = ?',[$discount]);
+        })->timezone('Africa/Tunis')->at('16:00');
+        $schedule->call(function(){
+            DB::update('update paniers set discount = 0');
+        })->timezone('Africa/Tunis')->at('17:00');
     }
 
     /**

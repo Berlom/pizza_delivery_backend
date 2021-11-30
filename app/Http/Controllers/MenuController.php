@@ -20,8 +20,8 @@ class MenuController extends Controller
         }
         $ingredients = $request->ingredients ?? [];
         $menu = new Menu($request->all());
-        $menu->ingredient()->attach($ingredients);
         $menu->save();
+        $menu->ingredient()->attach($ingredients);
         return response($menu,201);
     }
 

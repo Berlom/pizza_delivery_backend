@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make("hamza12321",[
                 'rounds' =>12
             ]),
-            'role' => 'admin'
+            'role' => 'admin',
+            'phone_number' => '24211592'
         ]);
 
         DB::table('menus')->insert([
