@@ -53,6 +53,7 @@ Route::middleware(['cors'])->group(function(){
         Route::post('/add',[PanierController::class,'addToCart']);
         Route::put('/update/{id}',[PanierController::class,'updateCart']);
         Route::delete('delete/{id}',[PanierController::class,'deleteFromCart']);
+        Route::post('/redeemPoints',[PanierController::class,'getFreeMenu']);
     });
     
     Route::prefix('coupon')->middleware(['auth:sanctum','isAdmin'])->group(function(){
@@ -62,6 +63,7 @@ Route::middleware(['cors'])->group(function(){
     
     Route::prefix('commande')->middleware(['auth:sanctum'])->group(function(){
         Route::post('/make/{coup?}',[CommandeController::class,'makeCommande']);
+        Route::get('/',[CommandeController::class,'getCommand']);
     });
 
     Route::prefix('address')->middleware(['auth:sanctum','isAdmin'])->group(function(){

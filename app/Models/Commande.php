@@ -14,6 +14,10 @@ class Commande extends Model
     ];
 
     public function Addresses(){
-        return $this->belongsTo(Address::class);
+        return $this->belongsTo(Address::class,'address_id');
+    }
+
+    public function users(){
+        return $this->belongsTo(User::class,'user_id');
     }
 }
