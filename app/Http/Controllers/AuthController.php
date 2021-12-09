@@ -52,7 +52,7 @@ class AuthController extends Controller
         $exist = Hash::check($password,$user->password);
         $token = $user->createToken('appToken')->plainTextToken;
         if($exist)
-            return response($token,200);
+            return response(['token'=>$token,'user'=>$user],200);
         else 
             return response("invalide login",401);
    }
