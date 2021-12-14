@@ -7,6 +7,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PanierController;
+use App\Models\Commande;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,6 +51,7 @@ Route::middleware(['cors'])->group(function(){
     });
     
     Route::prefix('cart')->middleware(['auth:sanctum'])->group(function(){
+        Route::get('/{id?}',[PanierController::class,'getCart']);
         Route::post('/add',[PanierController::class,'addToCart']);
         Route::put('/update/{id}',[PanierController::class,'updateCart']);
         Route::delete('delete/{id}',[PanierController::class,'deleteFromCart']);
@@ -62,6 +64,7 @@ Route::middleware(['cors'])->group(function(){
     });
     
     Route::prefix('commande')->middleware(['auth:sanctum'])->group(function(){
+        Route::middleware('isAdmin')->get('{reply}/{id}',[CommandeController::class,'replyCommand']);
         Route::post('/make/{coup?}',[CommandeController::class,'makeCommande']);
         Route::get('/',[CommandeController::class,'getCommand']);
     });

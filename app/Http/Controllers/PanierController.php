@@ -10,6 +10,28 @@ use Illuminate\Support\Facades\Validator;
 
 class PanierController extends Controller
 {
+    public function getCart(Request $request, $id=null){
+        $user = $request->user();
+        $response = [];
+        if($id){
+            $carts = Panier::where('id',$id)->where('user_id',$user->id)->with(['users'])->first();
+            $menu = Menu::where('id',$carts->menu_id)->first()->name;
+            $ingredients = explode("@",$carts->ingredients);
+            $ings =[];
+            foreach($ingredients as $ing){
+                $ingredient = Ingredient::where('id',$ing)->first()->name;
+                array_push($ings,$ingredient);
+            }
+            $response = ["cart" => $carts, "menu" =>$menu, "ingredients"=>$ings];
+        }
+        else{
+            $carts = Panier::where('user_id',$user->id)->with(['users'])->get();
+            $response = $carts;
+        }
+        return response($response,200);
+    }
+
+
     public function addToCart(Request $request){
         $validator = Validator::make($request->all(),[
             'quantity' => ['bail','numeric'],

@@ -53,4 +53,20 @@ class CommandeController extends Controller
         $command = Commande::where('user_id',$request->user()->id)->with(['users','addresses'])->get();
         return response($command,200);
     }
+
+    public function replyCommand($reply,$id){
+        $command = Commande::where('id',$id)->first();
+        if(!$command)
+            response("command doesn't exist",400);
+        switch ($reply){
+            case 'accept':
+                $command->status = "accepted"; break;
+            case 'decline':
+                $command->status = "declined"; break;
+            default: 
+                return response("unknown response",400);break;
+        }
+        $command->update();
+        return response("your order is ".$command->status,200);
+    }
 }
