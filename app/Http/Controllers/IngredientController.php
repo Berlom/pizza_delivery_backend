@@ -19,6 +19,11 @@ class IngredientController extends Controller
         return response($ingredients,200);
     }
 
+    public function getIngredientPerMenu($menu_id){
+        $ingredient = Menu::find($menu_id)->ingredient;
+        return response($ingredient,200);
+    }
+
     public function addIngredient(Request $request){
         $validator = Validator::make($request->all(),[
             'price' => ['bail','numeric'],

@@ -43,6 +43,7 @@ Route::middleware(['cors'])->group(function(){
     
     Route::prefix('ingredient')->middleware(['auth:sanctum'])->group(function(){
         Route::get('/{name?}',[IngredientController::class,'getAllIngredients']);
+        Route::get('menu/{menu_id}',[IngredientController::class,'getIngredientPerMenu']);
         Route::middleware(['isAdmin'])->group(function(){
             Route::post('/add',[IngredientController::class,'addIngredient']);
             Route::put('/update/{name}',[IngredientController::class,'editIngredient']);
