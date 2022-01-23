@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Validator;
 
 class CouponController extends Controller
 {
+    public function getCoupons(){
+        $coupons = Coupon::get();
+        return response($coupons,200);
+    }
+
     public function addCoupon(Request $request){
         $validator = Validator::make($request->all(),[
             'name' => ['bail','alpha','unique:coupons,name'],

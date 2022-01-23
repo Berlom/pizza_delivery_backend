@@ -10,7 +10,7 @@ class MenuController extends Controller
 {
     public function addMenu (Request $request){
         $validator = Validator::make($request->all(),[
-            'name' => ['bail','alpha','unique:menus,name'],
+            'name' => ['bail','unique:menus,name'],
             'price' => ['bail','numeric'],
             'ingredients' => ['bail','array']
         ]);

@@ -127,6 +127,9 @@ class PanierController extends Controller
                 $menu_id = Menu::where('name','chapatti')->first();
                 $user->points -= 20;
             }
+            else{
+                return response("it's haram to cheat habibi",400);
+            }
             $order = $menu_id->name.":";
             $ings = $request->ingredient ?? "";
             $ingredientArray = explode("@",$ings);

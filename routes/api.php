@@ -59,18 +59,22 @@ Route::middleware(['cors'])->group(function(){
         Route::post('/redeemPoints',[PanierController::class,'getFreeMenu']);
     });
     
-    Route::prefix('coupon')->middleware(['auth:sanctum','isAdmin'])->group(function(){
-        Route::post('/add',[CouponController::class,'addCoupon']);
-        Route::delete('/delete/{name}',[CouponController::class,'deleteCoupon']);
+    Route::prefix('coupon')->middleware(['auth:sanctum'])->group(function(){
+        Route::get('/',[CouponController::class,'getCoupons']);
+        Route::middleware(['isAdmin'])->group(function(){
+            Route::post('/add',[CouponController::class,'addCoupon']);
+            Route::delete('/delete/{name}',[CouponController::class,'deleteCoupon']);
+        });
     });
     
     Route::prefix('commande')->middleware(['auth:sanctum'])->group(function(){
         Route::middleware('isAdmin')->get('{reply}/{id}',[CommandeController::class,'replyCommand']);
         Route::post('/make/{coup?}',[CommandeController::class,'makeCommande']);
-        Route::get('/',[CommandeController::class,'getCommand']);
+        Route::get('/{id?}',[CommandeController::class,'getCommand']);
+        Route::delete('/delete/{id}',[CommandeController::class,'deleteCommand']);
     });
 
-    Route::prefix('address')->middleware(['auth:sanctum','isAdmin'])->group(function(){
+    Route::prefix('address')->middleware(['auth:sanctum'])->group(function(){
         Route::post('/add',[AddressController::class,'addAddress']);
     });
 });

@@ -20,8 +20,11 @@ class AddressController extends Controller
             return response($validator->getMessageBag()->first(),400);
         }
 
-        $address = new Address($request->all());
-        $address->save();
+        $address = Address::where('street',$request->street)->where('zip_code',$request->zip_code)->first();
+        if(!$address){
+            $address = new Address($request->all());
+            $address->save();
+        }
         return response($address,201);
     }
 }

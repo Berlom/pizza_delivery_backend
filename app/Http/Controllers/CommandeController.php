@@ -49,9 +49,22 @@ class CommandeController extends Controller
         return response('order sent successfully',201);
     }
 
-    public function getCommand(Request $request){
-        $command = Commande::where('user_id',$request->user()->id)->with(['users','addresses'])->get();
+    public function getCommand(Request $request,$id = null){
+        if(!$id)
+            $command = Commande::where('user_id',$request->user()->id)->with(['users','addresses'])->get();
+        else
+            $command = Commande::where('id',$id)->with(['users','addresses'])->first();
         return response($command,200);
+    }
+
+    public function deleteCommand($id){
+        $command = Commande::where('id',$id)->first();
+
+        if(!$command)
+            return response('there is no such command',400);
+
+        $command->delete();
+        return response('deleted with success',200);
     }
 
     public function replyCommand($reply,$id){
