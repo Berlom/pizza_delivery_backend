@@ -22,7 +22,7 @@ class AuthController extends Controller
             'email' => ['bail','email','required','unique:users,email'],
             'password'=> ['bail','required','between:8,30'],
             'name'=>['bail','required','alpha'],
-            'phone_number'=>['bail','required','numeric','size:8']
+            'phone_number'=>['bail','required','numeric']
         ]);
         if($validated->fails())
             return response($validated->getMessageBag()->first(),400);
@@ -51,10 +51,12 @@ class AuthController extends Controller
             return response("invalide login",401);
         $exist = Hash::check($password,$user->password);
         $token = $user->createToken('appToken')->plainTextToken;
-        if($exist)
-            return response(['token'=>$token,'user'=>$user],200);
-        else 
+        if(!$exist)
             return response("invalide login",401);
+        else if($user->activation_token)
+            return response("account must be activated",401);
+        else
+            return response(['token'=>$token,'user'=>$user],200);
    }
 
    public function activateAccount($token){

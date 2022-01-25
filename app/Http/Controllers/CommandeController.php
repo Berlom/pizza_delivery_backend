@@ -50,10 +50,15 @@ class CommandeController extends Controller
     }
 
     public function getCommand(Request $request,$id = null){
-        if(!$id)
-            $command = Commande::where('user_id',$request->user()->id)->with(['users','addresses'])->get();
-        else
+        if($id)
             $command = Commande::where('id',$id)->with(['users','addresses'])->first();
+        else{
+            if($request->user()->role =='admin')
+                $command = Commande::where('status','pending')->with(['users','addresses'])->get();
+            else
+                $command = Commande::where('user_id',$request->user()->id)->with(['users','addresses'])->get();
+                
+        }
         return response($command,200);
     }
 
@@ -67,7 +72,7 @@ class CommandeController extends Controller
         return response('deleted with success',200);
     }
 
-    public function replyCommand($reply,$id){
+    public function replyCommand($id,$reply){
         $command = Commande::where('id',$id)->first();
         if(!$command)
             response("command doesn't exist",400);
