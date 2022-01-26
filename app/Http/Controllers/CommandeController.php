@@ -46,7 +46,7 @@ class CommandeController extends Controller
         $cmd->orders = $orders;
         $cmd->save();
         $user->update();
-        return response('order sent successfully',201);
+        return response(["cmd"=>$cmd,"user"=>$user],201);
     }
 
     public function getCommand(Request $request,$id = null){
